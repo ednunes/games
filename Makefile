@@ -1,8 +1,23 @@
-CC=g++
-CFLAGS= -lm
-EXEC= prog
-SRC= square.cpp board.cpp main.cpp
+BINFOLDER := bin/
+INCFOLDER := include/
+OBJFOLDER := obj/
+SRCFOLDER := source/
 
-principal:
-	$(CC) -o $(EXEC) $(CFLAGS) $(SRC)
 
+CC := g++
+CFLAGS := -Wall -ansi
+
+SRCFILES := $(wildcard source/*.cpp)
+
+all: $(SRCFILES:source/%.cpp=obj/%.o)
+	$(CC) $(CFLAGS) obj/*.o -o start 
+
+obj/%.o: source/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@ -I./include
+
+.PHONY: clean
+clean:
+	rm -rf obj/*
+	rm -rf bin/*
+run:
+	./start
