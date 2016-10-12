@@ -73,136 +73,159 @@ bool Board::checkVictory(short value){
 		return false;
 	}
 }
+//Fix this method
+bool Board::checkLost(){
+				for(short x = 0; x < 4; x++){
+								for(short y = 1; y < 3; y++ ){
+												if((board[x][y].getStatusSquare() == 0 or board[x][y-1].getStatusSquare() == 0 or board[x+1][y].getStatusSquare() == 0 or board[x-1][y].getStatusSquare() == 0) and (x-1>=0 and x+1<4)){
+																std::cout << "Game1 Over!!!" << std::endl;
+																return false;
+												} else	if(board[x][y].getStatusSquare()!=board[x][y-1].getStatusSquare() or board[x][y].getStatusSquare()!=board[x][y+1].getStatusSquare()){
+																std::cout << "Game2 Over!!!" << std::endl;
+																return false;
+												} else if(board[x][y].getStatusSquare()!=board[x+1][y].getStatusSquare() or board[x-1][y].getStatusSquare()!=board[x][y+1].getStatusSquare()){
+																std::cout << "Game3 Over!!!" << std::endl;
+																return false;
+												} else {
+																if((board[x][y].getStatusSquare() == board[x-1][y].getStatusSquare() or board[x][y].getStatusSquare() == board[x+1][y].getStatusSquare()) and (x-1>=0 and x+1<4)){
+																				std::cout << "Game4 Over!!!" << std::endl;
+																				return false;
+																} else if(board[x][y].getStatusSquare()==board[x][y+1].getStatusSquare()  and (x-1>=0 and x+1<4)){
+																				std::cout << "Game5 Over!!!" << std::endl;
+																				return false;
+																} else {
 
+																}
 
+												}
+								}
+				}
+				std::cout << "Game Over!!!" << std::endl;
+				return true;
+}
 
 void Board::setStatusSquareFalse(){
-	for(short x = 0; x < 4; x++){
-		for(short y = 0; y < 4; y++ ){
-			board[x][y].setStatusSquare(false);
-		}
-	}
+				for(short x = 0; x < 4; x++){
+								for(short y = 0; y < 4; y++ ){
+												board[x][y].setStatusSquare(false);
+								}
+				}
 }
 
 short* defineSense(short defineM, short x, short y){
-	static short v[2] = {0};
-	if (defineM==1)
-	{
-		v[0] = y;
-		v[1] = x;
+				static short v[2] = {0};
+				if (defineM==1)
+				{
+								v[0] = y;
+								v[1] = x;
 
-	} else {
-		v[0] = x;
-		v[1] = y;
-	}
-	return v;
+				} else {
+								v[0] = x;
+								v[1] = y;
+				}
+				return v;
 }
 
 bool Board::moveLeftOrUp(short defineM, short defineN, bool statusGame){
-	short m = 0, n = 0;
-	short* vetor = NULL;
+				short m = 0, n = 0;
+				short* vetor = NULL;
 
-	for(short x = 0; x < 4; x++){
-		for(short y = 0; y < 4; y++){
-			
-			vetor = defineSense(defineM,x,y);
-			m = vetor[0];
-			n = vetor[1];
+				setStatusSquareFalse();
 
-			if(board[m][n].getValueSquare()!=0){
-				if(((n+defineN<4) and (m+defineM<4)) and board[m][n].getValueSquare() == board[m+defineM][n+defineN].getValueSquare() and board[m][n].getStatusSquare()!=true){
-					board[m][n].setValueSquare(board[m+defineM][n+defineN].getValueSquare()*2);
-					board[m][n].setStatusSquare(true);
-					board[m+defineM][n+defineN].setValueSquare(0);
-					
-					statusGame = checkVictory(board[m][n].getValueSquare());
-				} else {
-					//      checkLost();
+				for(short x = 0; x < 4; x++){
+								for(short y = 0; y < 4; y++){
+
+												vetor = defineSense(defineM,x,y);
+												m = vetor[0];
+												n = vetor[1];
+
+												if(board[m][n].getValueSquare()!=0){
+																if(((n+defineN<4) and (m+defineM<4)) and board[m][n].getValueSquare() == board[m+defineM][n+defineN].getValueSquare() and board[m][n].getStatusSquare()!=true){
+																				board[m][n].setValueSquare(board[m+defineM][n+defineN].getValueSquare()*2);
+																				board[m][n].setStatusSquare(true);
+																				board[m+defineM][n+defineN].setValueSquare(0);
+
+																				statusGame = checkVictory(board[m][n].getValueSquare());
+																} else {
+																				//      checkLost();
+																}
+												} else {
+																if(((n+defineN<4) and (m+defineM<4)) and board[m+defineM][n+defineN].getValueSquare()!=0){
+																				board[m][n].setValueSquare(board[m+defineM][n+defineN].getValueSquare());
+																				board[m+defineM][n+defineN].setValueSquare(0);
+
+																				if(((n>=defineN) and (m>=defineM)) and y >= 1 and (board[m-defineM][n-defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m-defineM][n-defineN].getValueSquare())){
+																								y-=2;
+																				} else {
+																								// Do nothing	
+																				}
+																} else {
+																				// Do nothing	
+																}
+												}
+								}
 				}
-			} else {
-				if(((n+defineN<4) and (m+defineM<4)) and board[m+defineM][n+defineN].getValueSquare()!=0){
-					board[m][n].setValueSquare(board[m+defineM][n+defineN].getValueSquare());
-					board[m+defineM][n+defineN].setValueSquare(0);
-					
-					if(((n>=defineN) and (m>=defineM)) and (board[m-defineM][n-defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m-defineM][n-defineN].getValueSquare())){
-						if(y >= 1){
-							y-=2;
-						} else {
-							// Do nothing	
-						}
-					} else {
-						// Do nothing	
-					}
-				} else {
-					// Do nothing	
-				}
-			}
-		}
-	}
-	
-	return statusGame;
+
+				return statusGame;
 }		
 
 
+
 bool Board::moveRightOrDown(short defineM, short defineN, bool statusGame){
-	short m = 0, n = 0;
-	short* vetor = NULL;
+				short m = 0, n = 0;
+				short* vetor = NULL;
 
-	setStatusSquareFalse();
+				setStatusSquareFalse();
 
-	for(short x = 0; x < 4; x++){
-		for(short y = SQUARESNUMBERS-1; y>=0; y--){
-			
-			vetor = defineSense(defineM,x,y);
-			m = vetor[0];
-			n = vetor[1];
+				for(short x = 0; x < 4; x++){
+								for(short y = SQUARESNUMBERS-1; y>=0; y--){
 
-			if(board[m][n].getValueSquare()!=0){
-				if(((n>=defineN) and (m>=defineM)) and board[m][n].getValueSquare() == board[m-defineM][n-defineN].getValueSquare() and board[m][n].getStatusSquare()!=true){
-					board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare()*2);
-					board[m][n].setStatusSquare(true);
-					board[m-defineM][n-defineN].setValueSquare(0);
-					
-					statusGame = checkVictory(board[m][n].getValueSquare());
-				} else {
-					//      checkLost();
+												vetor = defineSense(defineM,x,y);
+												m = vetor[0];
+												n = vetor[1];
+
+												if(board[m][n].getValueSquare()!=0){
+																if(((n>=defineN) and (m>=defineM)) and board[m][n].getValueSquare() == board[m-defineM][n-defineN].getValueSquare() and board[m][n].getStatusSquare()!=true){
+																				board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare()*2);
+																				board[m][n].setStatusSquare(true);
+																				board[m-defineM][n-defineN].setValueSquare(0);
+
+																				statusGame = checkVictory(board[m][n].getValueSquare());
+																} else {
+																				//      checkLost();
+																}
+												} else {
+																if(((n>=defineN) and (m>=defineM)) and board[m-defineM][n-defineN].getValueSquare()!=0){
+																				board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare());
+																				board[m-defineM][n-defineN].setValueSquare(0);
+
+																				if((n+defineN<4 and m+defineM<4) and (y < SQUARESNUMBERS) and (board[m+defineM][n+defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m+defineM][n+defineN].getValueSquare())){
+																								y+=2;
+																				} else {
+																								// Do nothing	
+																				}
+																} else {
+																				// Do nothing	
+																}
+												}
+								}
 				}
-			} else {
-				if(((n>=defineN) and (m>=defineM)) and board[m-defineM][n-defineN].getValueSquare()!=0){
-					board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare());
-					board[m-defineM][n-defineN].setValueSquare(0);
-					
-					if((n+defineN<4 and m+defineM<4) and (board[m+defineM][n+defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m+defineM][n+defineN].getValueSquare())){
-						if(y < SQUARESNUMBERS){
-							y+=2;
-						} else {
-							// Do nothing	
-						}
-					} else {
-						// Do nothing	
-					}
-				} else {
-					// Do nothing	
-				}
-			}
-		}
-	}
-	return statusGame;
+				return statusGame;
 }
 
 
 bool Board::moveSquare(char move, bool statusGame){
-		if(move == 'W' or move == 'w'){
-			statusGame = moveLeftOrUp(1,0,statusGame);
-		} else if(move == 'A' or move == 'a'){
-			statusGame = moveLeftOrUp(0,1,statusGame);
-		} else if(move == 'S' or move == 's'){
-		 	statusGame = moveRightOrDown(1,0,statusGame);
-		} else if(move == 'D' or move == 'd'){
-			statusGame = moveRightOrDown(0,1,statusGame);
-		} else {
-				std::cout << "Comando invalido" << std::endl;
-		}
-		return statusGame;
+				if(move == 'W' or move == 'w'){
+								statusGame = moveLeftOrUp(1,0,statusGame);
+				} else if(move == 'A' or move == 'a'){
+								statusGame = moveLeftOrUp(0,1,statusGame);
+				} else if(move == 'S' or move == 's'){
+								statusGame = moveRightOrDown(1,0,statusGame);
+				} else if(move == 'D' or move == 'd'){
+								statusGame = moveRightOrDown(0,1,statusGame);
+				} else {
+								std::cout << "Comando invalido" << std::endl;
+				}
+				return statusGame;
 
 }

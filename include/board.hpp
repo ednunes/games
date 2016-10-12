@@ -24,6 +24,9 @@ class Board {
 		void drawBoard();
 		bool generateNumberSquare(bool firstTime);
 		bool checkVictory(short value);
+		bool checkLost();
+
+
 		bool moveSquare(char move, bool statusGame);
 	
 		void setStatusSquareFalse();
@@ -31,7 +34,7 @@ class Board {
 		bool moveLeftOrUp(short defineM, short defineN, bool statusGame);
 		bool moveRightOrDown(short defineM, short defineN, bool statusGame);
 	
-	
+		void testMatrix();	
 };
 
 #endif
