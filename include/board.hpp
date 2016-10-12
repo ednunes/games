@@ -23,13 +23,13 @@ class Board {
 				
 		void drawBoard();
 		bool generateNumberSquare(bool firstTime);
-		bool checkVictory(int value);
+		bool checkVictory(short value);
 		bool moveSquare(char move, bool statusGame);
 	
 		void setStatusSquareFalse();
 	
-		bool moveLeftOrUp(int defineM, int defineN, bool statusGame);
-		bool moveRightOrDown(int defineM, int defineN, bool statusGame);
+		bool moveLeftOrUp(short defineM, short defineN, bool statusGame);
+		bool moveRightOrDown(short defineM, short defineN, bool statusGame);
 	
 	
 };
