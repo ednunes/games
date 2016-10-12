@@ -15,94 +15,85 @@ Board::Board(){
 	//Do nothing
 }
 
-void Board::drawBoard(){
-		std::cout << "|------|------|------|------|" << std::endl;
-		for(short x = 0; x < SQUARESNUMBERS; ++x){
-				std::cout << "| ";
-				for(short y = 0; y < SQUARESNUMBERS; ++y){
-						if(board[x][y].getValueSquare()==0)
-						{
-								std::cout << std::setw(SQUARESNUMBERS) << " ";
-						} else { 
-								std::cout << std::setw(SQUARESNUMBERS) << board[x][y].getValueSquare();
-						}
-						std::cout << " | ";
+bool Board::checkGameOver(){
+				for(short x = 0; x < SQUARESNUMBERS; ++x){
+								for(short y = 1; y < SQUARESNUMBERS-1; ++y){
+												if((board[x][y].getValueSquare()==0 or board[x+1][y].getValueSquare()==0 or board[x-1][y].getValueSquare()==0 
+														or board[x][y+1].getValueSquare()==0 or board[x][y-1].getValueSquare()==0) and (x-1>=0 and x+1<4)){
+																return false;
+												} else if((board[x][y].getValueSquare()==board[x+1][y].getValueSquare() or board[x][y].getValueSquare()== board[x-1][y].getValueSquare()) and (x-1>=0 and x+1<4)){
+																return false;
+												} else if(board[x][y].getValueSquare()==board[x][y-1].getValueSquare() or board[x][y].getValueSquare()==board[x][y+1].getValueSquare()){
+																return false;
+												} else{ 
+														
+												}
+								}
 				}
-				std::cout << std::endl;
+				std::cout << "Game Over" << std::endl;
+				return true;
+
+}
+
+void Board::drawBoard(){
 				std::cout << "|------|------|------|------|" << std::endl;
-		}
+				for(short x = 0; x < SQUARESNUMBERS; ++x){
+								std::cout << "| ";
+								for(short y = 0; y < SQUARESNUMBERS; ++y){
+												if(board[x][y].getValueSquare()==0)
+												{
+																std::cout << std::setw(SQUARESNUMBERS) << " ";
+												} else { 
+																std::cout << std::setw(SQUARESNUMBERS) << board[x][y].getValueSquare();
+												}
+												std::cout << " | ";
+								}
+								std::cout << std::endl;
+								std::cout << "|------|------|------|------|" << std::endl;
+				}
 }
 
 
 bool Board::generateNumberSquare(bool firstTime){
-		srand(static_cast<unsigned short>(time(NULL)));
+				srand(static_cast<unsigned short>(time(NULL)));
 
-		unsigned short positionX = 0;
-		unsigned short positionY = 0;
-	  unsigned short time = 1;
-		if(firstTime==true){
-				time = 2;
-				firstTime = false;	
-		} else {
-				//Do nothing
-		}
-
-		for(short i = 0; i < time; i++){ 
-				do {
-						positionX = rand()%4;
-						positionY = rand()%4;
-				} while(board[positionX][positionY].getValueSquare());	
-
-				unsigned short randomico = rand()%100;
-				if(randomico>79){
-						board[positionX][positionY].setValueSquare(4);
+				unsigned short positionX = 0;
+				unsigned short positionY = 0;
+				unsigned short time = 1;
+				if(firstTime==true){
+								time = 2;
+								firstTime = false;	
 				} else {
-						board[positionX][positionY].setValueSquare(2);
+								//Do nothing
 				}
-		}
-		return firstTime;
+
+				for(short i = 0; i < time; i++){ 
+								do {
+												positionX = rand()%4;
+												positionY = rand()%4;
+								} while(board[positionX][positionY].getValueSquare());	
+
+								unsigned short randomico = rand()%100;
+								if(randomico>79){
+												board[positionX][positionY].setValueSquare(4);
+								} else {
+												board[positionX][positionY].setValueSquare(2);
+								}
+				}
+				return firstTime;
 }
 
 bool Board::checkVictory(short value){
-	 const short HIGHNUMBER = 16;
+				const short HIGHNUMBER = 16;
 
-	if(value==HIGHNUMBER){
-		std::cout << "Jogo ganho!!!" << std::endl;
-		return true;
-	} else {
-		return false;
-	}
-}
-//Fix this method
-bool Board::checkLost(){
-				for(short x = 0; x < 4; x++){
-								for(short y = 1; y < 3; y++ ){
-												if((board[x][y].getStatusSquare() == 0 or board[x][y-1].getStatusSquare() == 0 or board[x+1][y].getStatusSquare() == 0 or board[x-1][y].getStatusSquare() == 0) and (x-1>=0 and x+1<4)){
-																std::cout << "Game1 Over!!!" << std::endl;
-																return false;
-												} else	if(board[x][y].getStatusSquare()!=board[x][y-1].getStatusSquare() or board[x][y].getStatusSquare()!=board[x][y+1].getStatusSquare()){
-																std::cout << "Game2 Over!!!" << std::endl;
-																return false;
-												} else if(board[x][y].getStatusSquare()!=board[x+1][y].getStatusSquare() or board[x-1][y].getStatusSquare()!=board[x][y+1].getStatusSquare()){
-																std::cout << "Game3 Over!!!" << std::endl;
-																return false;
-												} else {
-																if((board[x][y].getStatusSquare() == board[x-1][y].getStatusSquare() or board[x][y].getStatusSquare() == board[x+1][y].getStatusSquare()) and (x-1>=0 and x+1<4)){
-																				std::cout << "Game4 Over!!!" << std::endl;
-																				return false;
-																} else if(board[x][y].getStatusSquare()==board[x][y+1].getStatusSquare()  and (x-1>=0 and x+1<4)){
-																				std::cout << "Game5 Over!!!" << std::endl;
-																				return false;
-																} else {
-
-																}
-
-												}
-								}
+				if(value==HIGHNUMBER){
+								std::cout << "Jogo ganho!!!" << std::endl;
+								return true;
+				} else {
+								return false;
 				}
-				std::cout << "Game Over!!!" << std::endl;
-				return true;
 }
+
 
 void Board::setStatusSquareFalse(){
 				for(short x = 0; x < 4; x++){

@@ -6,8 +6,7 @@ int main(){
 	Board squares;
 	bool firstTime = true;
 	bool statusGame = false;
-//squares.testMatrix();
-
+	squares.testMatrix();
 
 	do{	
 		firstTime = squares.generateNumberSquare(firstTime);	

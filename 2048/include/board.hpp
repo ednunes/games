@@ -24,7 +24,7 @@ class Board {
 		void drawBoard();
 		bool generateNumberSquare(bool firstTime);
 		bool checkVictory(short value);
-		bool checkLost();
+		bool checkGameOver();
 
 
 		bool moveSquare(char move, bool statusGame);

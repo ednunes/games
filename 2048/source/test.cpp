@@ -122,8 +122,7 @@ void Board::testMatrix(){
 	board[3][2].setValueSquare(2);
 	board[3][3].setValueSquare(4);
 	drawBoard();	
-	statusGame = checkLost();
-	drawBoard();	
-	
+ 	statusGame = checkGameOver();
 
 }
+
