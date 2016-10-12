@@ -16,6 +16,7 @@ class Square;
 class Board {
 	private:
                 Square board[SQUARESNUMBERS][SQUARESNUMBERS];
+		unsigned short score;
 
 	public:
 		Board();
@@ -25,8 +26,11 @@ class Board {
 		bool generateNumberSquare(bool firstTime);
 		bool checkVictory(short value);
 		bool checkGameOver();
+		bool checkCanMove(short x, short y);		
 
+		unsigned short getScore();
 
+		
 		bool moveSquare(char move, bool statusGame);
 	
 		void setStatusSquareFalse();

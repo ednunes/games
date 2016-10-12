@@ -1,40 +1,30 @@
 #include "board.hpp"
 
 Board::~Board(){
-	/*
-		// Fix this
-		for(short i = 0; i < SQUARESNUMBERS; ++i){
-		delete [] ((Board*)this) Board::board[i];
-		}
-		delete[] board;
-		board = NULL;
-	 */
+	 
 }
 
 Board::Board(){
-	//Do nothing
+	score = 0;
 }
 
 bool Board::checkGameOver(){
 				for(short x = 0; x < SQUARESNUMBERS; ++x){
 								for(short y = 1; y < SQUARESNUMBERS-1; ++y){
-												if((board[x][y].getValueSquare()==0 or board[x+1][y].getValueSquare()==0 or board[x-1][y].getValueSquare()==0 
-														or board[x][y+1].getValueSquare()==0 or board[x][y-1].getValueSquare()==0) and (x-1>=0 and x+1<4)){
-																return false;
-												} else if((board[x][y].getValueSquare()==board[x+1][y].getValueSquare() or board[x][y].getValueSquare()== board[x-1][y].getValueSquare()) and (x-1>=0 and x+1<4)){
-																return false;
-												} else if(board[x][y].getValueSquare()==board[x][y-1].getValueSquare() or board[x][y].getValueSquare()==board[x][y+1].getValueSquare()){
-																return false;
-												} else{ 
-														
-												}
+										if(checkCanMove(x, y)==true){
+											return false;
+										} else {
+				
+										}
 								}
 				}
 				std::cout << "Game Over" << std::endl;
 				return true;
 
 }
-
+unsigned short Board::getScore(){
+	return score;
+}
 void Board::drawBoard(){
 				std::cout << "|------|------|------|------|" << std::endl;
 				for(short x = 0; x < SQUARESNUMBERS; ++x){
@@ -136,9 +126,10 @@ bool Board::moveLeftOrUp(short defineM, short defineN, bool statusGame){
 																				board[m][n].setStatusSquare(true);
 																				board[m+defineM][n+defineN].setValueSquare(0);
 
+																				score+=board[m][n].getValueSquare();
 																				statusGame = checkVictory(board[m][n].getValueSquare());
 																} else {
-																				//      checkLost();
+																				checkGameOver();
 																}
 												} else {
 																if(((n+defineN<4) and (m+defineM<4)) and board[m+defineM][n+defineN].getValueSquare()!=0){
@@ -160,12 +151,23 @@ bool Board::moveLeftOrUp(short defineM, short defineN, bool statusGame){
 				return statusGame;
 }		
 
-
+bool Board::checkCanMove(short x, short y){
+												if((board[x][y].getValueSquare()==0 or board[x+1][y].getValueSquare()==0 or board[x-1][y].getValueSquare()==0 or board[x][y+1].getValueSquare()==0 or board[x][y-1].getValueSquare()==0) and (x-1>=0 and x+1<4)){
+																return true;
+												} else if((board[x][y].getValueSquare()==board[x+1][y].getValueSquare() or board[x][y].getValueSquare()== board[x-1][y].getValueSquare()) and (x-1>=0 and x+1<4)){
+																return true;
+												} else if(board[x][y].getValueSquare()==board[x][y-1].getValueSquare() or board[x][y].getValueSquare()==board[x][y+1].getValueSquare()){
+																return true;
+												} else{ 
+														
+												}
+				return false;
+}
 
 bool Board::moveRightOrDown(short defineM, short defineN, bool statusGame){
 				short m = 0, n = 0;
 				short* vetor = NULL;
-
+				//short countNoOperations = 0;
 				setStatusSquareFalse();
 
 				for(short x = 0; x < 4; x++){
@@ -180,10 +182,11 @@ bool Board::moveRightOrDown(short defineM, short defineN, bool statusGame){
 																				board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare()*2);
 																				board[m][n].setStatusSquare(true);
 																				board[m-defineM][n-defineN].setValueSquare(0);
-
+																							
+																				score+=board[m][n].getValueSquare();
 																				statusGame = checkVictory(board[m][n].getValueSquare());
 																} else {
-																				//      checkLost();
+																				checkGameOver();
 																}
 												} else {
 																if(((n>=defineN) and (m>=defineM)) and board[m-defineM][n-defineN].getValueSquare()!=0){

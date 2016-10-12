@@ -6,7 +6,8 @@ int main(){
 	Board squares;
 	bool firstTime = true;
 	bool statusGame = false;
-	squares.testMatrix();
+	unsigned short gamesNumber = 0;
+//	squares.testMatrix();
 
 	do{	
 		firstTime = squares.generateNumberSquare(firstTime);	
@@ -15,6 +16,7 @@ int main(){
 		char move;
 		std::cin >> move;
 		statusGame = squares.moveSquare(move, statusGame);
+		std::cout<< "Score: " << squares.getScore()<<std::endl;
 				
 	} while(statusGame != true);
 
