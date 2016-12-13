@@ -5,8 +5,8 @@ Board::~Board(){
 }
 
 Board::Board(){
-score = 0;
-bustling = false;
+	score = 0;
+	bustling = false;
 }
 
 bool Board::checkGameOver(){
@@ -31,7 +31,7 @@ bool Board::checkCanMove(short x, short y){
 	} else if(board[x][y].getValueSquare()==board[x][y-1].getValueSquare() or board[x][y].getValueSquare()==board[x][y+1].getValueSquare()){
 		return true;
 	} else{ 
-			
+
 	}
 	return false;
 }
@@ -109,7 +109,7 @@ bool Board::checkVictory(short value){
 void Board::setStatusSquareFalse(){
 	for(short x = 0; x < 4; x++){
 		for(short y = 0; y < 4; y++ ){
-						board[x][y].setStatusSquare(false);
+			board[x][y].setStatusSquare(false);
 		}
 	}
 }
@@ -149,21 +149,21 @@ bool Board::moveLeftOrUp(short defineM, short defineN, bool statusGame){
 					statusGame = checkVictory(board[m][n].getValueSquare());
 					bustling = true;
 				} else {
-					bustling = false;					
+					//Do nothing
 				}
 			} else {
 				if(((n+defineN<4) and (m+defineM<4)) and board[m+defineM][n+defineN].getValueSquare()!=0){
 					board[m][n].setValueSquare(board[m+defineM][n+defineN].getValueSquare());
 					board[m+defineM][n+defineN].setValueSquare(0);
 					bustling = true;
-					
+
 					if(((n>=defineN) and (m>=defineM)) and y >= 1 and (board[m-defineM][n-defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m-defineM][n-defineN].getValueSquare())){
 						y-=2;
 					} else {
-						bustling = false;	
+						//Do nothing
 					}
 				} else {
-					bustling = false;	
+					//Do nothing
 				}
 			}
 		}
@@ -188,12 +188,12 @@ bool Board::moveRightOrDown(short defineM, short defineN, bool statusGame){
 					board[m][n].setValueSquare(board[m-defineM][n-defineN].getValueSquare()*2);
 					board[m][n].setStatusSquare(true);
 					board[m-defineM][n-defineN].setValueSquare(0);
-								
+
 					score+=board[m][n].getValueSquare();
 					statusGame = checkVictory(board[m][n].getValueSquare());
 					bustling = true;
 				} else {
-					
+					//Do nothing
 				}
 			} else {
 				if(((n>=defineN) and (m>=defineM)) and board[m-defineM][n-defineN].getValueSquare()!=0){
@@ -204,12 +204,12 @@ bool Board::moveRightOrDown(short defineM, short defineN, bool statusGame){
 					if((n+defineN<4 and m+defineM<4) and (y < SQUARESNUMBERS) and (board[m+defineM][n+defineN].getValueSquare()==0 or board[m][n].getValueSquare()==board[m+defineM][n+defineN].getValueSquare())){
 						y+=2;
 					} else {
-						// Do nothing	
+						//Do nothing
 					}
 				} else {
-						// Do nothing	
+					//Do nothing
 				}
-		}
+			}
 		}
 	}
 	return statusGame;
